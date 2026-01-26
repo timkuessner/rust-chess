@@ -1,9 +1,10 @@
+mod core;
+mod ui;
+
+use core::board::Board;
+use ui::display::Display;
+
 fn main() {
-    println!("Rust Chess Engine");
-
-    loop {
-        break;
-    }
-
-    println!("Thanks for playing!");
+    let board = Board::new();
+    board.print();
 }
