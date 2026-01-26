@@ -1,3 +1,9 @@
 fn main() {
-    println!("Hello, world!");
+    println!("Rust Chess Engine");
+
+    loop {
+        break;
+    }
+
+    println!("Thanks for playing!");
 }
