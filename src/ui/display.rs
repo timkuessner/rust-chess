@@ -1,11 +1,11 @@
-use crate::core::board::Board;
+use crate::core::position::Position;
 use crate::core::types::piece::Piece;
 
 pub trait Display {
     fn print(&self);
 }
 
-impl Display for Board {
+impl Display for Position {
     fn print(&self) {
         println!("\n    a b c d e f g h\n");
         

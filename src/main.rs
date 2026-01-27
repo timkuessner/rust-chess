@@ -1,10 +1,10 @@
 mod core;
 mod ui;
 
-use core::board::Board;
+use core::position::Position;
 use ui::display::Display;
 
 fn main() {
-    let board = Board::new();
+    let board = Position::new();
     board.print();
 }

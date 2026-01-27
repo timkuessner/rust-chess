@@ -2,12 +2,12 @@ use super::types::bitboard::Bitboard;
 use super::types::color::Color;
 use super::types::piece::Piece;
 
-pub struct Board {
+pub struct Position {
     pub pieces: [Bitboard; Piece::COUNT],
     pub side_to_move: Color,
 }
 
-impl Board {
+impl Position {
     pub fn new() -> Self {
         let mut pieces = [Bitboard::empty(); Piece::COUNT];
 
@@ -25,7 +25,7 @@ impl Board {
         pieces[Piece::BlackQueen] = Bitboard::new(0x0800000000000000);
         pieces[Piece::BlackKing] = Bitboard::new(0x1000000000000000);
 
-        Board { pieces, side_to_move: Color::White }
+        Position { pieces, side_to_move: Color::White }
     }
 
     pub fn get_piece_at(&self, square: u8) -> Option<Piece> {
