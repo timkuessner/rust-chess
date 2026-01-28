@@ -3,6 +3,7 @@ use super::types::color::Color;
 use super::types::piece::Piece;
 use super::types::castling::CastlingRights;
 
+#[derive(Debug)]
 pub struct Position {
     pub pieces: [Bitboard; Piece::COUNT],
     pub side_to_move: Color,
