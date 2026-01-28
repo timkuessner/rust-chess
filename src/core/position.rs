@@ -1,10 +1,16 @@
 use super::types::bitboard::Bitboard;
 use super::types::color::Color;
 use super::types::piece::Piece;
+use super::types::castling::CastlingRights;
 
 pub struct Position {
     pub pieces: [Bitboard; Piece::COUNT],
     pub side_to_move: Color,
+    pub castling_rights: CastlingRights,
+    pub en_passant_square: Option<u8>,
+    pub halfmove_clock: u8,
+    pub fullmove_number: u16,
+
 }
 
 impl Position {
@@ -25,7 +31,7 @@ impl Position {
         pieces[Piece::BlackQueen] = Bitboard::new(0x0800000000000000);
         pieces[Piece::BlackKing] = Bitboard::new(0x1000000000000000);
 
-        Position { pieces, side_to_move: Color::White }
+        Position { pieces, side_to_move: Color::White, castling_rights: CastlingRights::all(), en_passant_square: None, halfmove_clock: 0, fullmove_number: 1 }
     }
 
     pub fn get_piece_at(&self, square: u8) -> Option<Piece> {

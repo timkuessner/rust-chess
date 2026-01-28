@@ -1,3 +1,4 @@
 pub mod bitboard;
 pub mod piece;
 pub mod color;
+pub mod castling;

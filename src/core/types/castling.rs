@@ -13,7 +13,7 @@ impl CastlingRights {
     pub const ALL: u8 = 15;
     
     pub fn new(rights: u8) -> Self {
-        CastlingRights(rights & Self.ALL)
+        CastlingRights(rights & Self::ALL)
     }
     
     pub fn all() -> Self {

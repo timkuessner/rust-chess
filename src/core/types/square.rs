@@ -20,7 +20,7 @@ pub const H2: u8 = 15;
 
 pub const A3: u8 = 16;
 pub const B3: u8 = 17;
-pub const C1: u8 = 18;
+pub const C3: u8 = 18;
 pub const D3: u8 = 19;
 pub const E3: u8 = 20;
 pub const F3: u8 = 21;
