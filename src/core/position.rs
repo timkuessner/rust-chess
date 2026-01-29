@@ -1,7 +1,9 @@
+use super::types::move_::Move;
 use super::types::bitboard::Bitboard;
 use super::types::color::Color;
 use super::types::piece::Piece;
 use super::types::castling::CastlingRights;
+use super::move_generator::MoveGenerator;
 
 #[derive(Debug)]
 pub struct Position {
@@ -42,5 +44,9 @@ impl Position {
             }
         }
         None
+    }
+
+    pub fn legal_moves(&self) -> Vec<Move> {
+        MoveGenerator::legal_moves(self)
     }
 }

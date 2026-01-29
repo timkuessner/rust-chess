@@ -12,4 +12,6 @@ fn main() {
     println!("  En passant: {:?}", position.en_passant_square);
     println!("  Halfmove clock: {}", position.halfmove_clock);
     println!("  Fullmove number: {}", position.fullmove_number);
+
+    position.legal_moves();
 }
