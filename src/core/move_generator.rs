@@ -8,6 +8,33 @@ use super::types::move_::Move;
 
 pub struct MoveGenerator;
 
+static KNIGHT_MOVES: [Bitboard; 64] = {
+    let mut table = [Bitboard::empty(); 64];
+    let offsets = [(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)];
+    
+    let mut sq: usize = 0;
+    while sq < 64 {
+        let file = (sq % 8) as i8;
+        let rank = (sq / 8) as i8;
+        let mut attacks = 0u64;
+        
+        let mut i = 0;
+        while i < 8 {
+            let (df, dr) = offsets[i];
+            let nf = file + df;
+            let nr = rank + dr;
+            if nf >= 0 && nf <= 7 && nr >= 0 && nr <= 7 {
+                attacks |= 1u64 << (nr * 8 + nf);
+            }
+            i += 1;
+        }
+        
+        table[sq] = Bitboard(attacks);
+        sq += 1;
+    }
+    table
+};
+
 impl MoveGenerator {
     pub fn legal_moves(position: &Position) -> Vec<Move> {
         let mut moves: Vec<Move> = Vec::with_capacity(40);
@@ -116,7 +143,21 @@ impl MoveGenerator {
     }
 
     fn generate_knight_moves(position: &Position, side: &Color, moves: &mut Vec<Move>) {
-        
+        let knights = match side {
+            Color::White => position.pieces[Piece::WhiteKnight],
+            Color::Black => position.pieces[Piece::BlackKnight],
+        };
+
+        let own = position.pieces_of_color(side.clone());
+
+        for from in knights.squares() {
+            for to in (KNIGHT_MOVES[from as usize] & !own).squares() {
+                moves.push(Move::new(from, to, match side {
+                    Color::White => Piece::WhiteKnight,
+                    Color::Black => Piece::BlackKnight,
+                }));
+            }
+        }
     }
 
     fn generate_bishop_moves(position: &Position, side: &Color, moves: &mut Vec<Move>) {
