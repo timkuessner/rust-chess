@@ -34,6 +34,11 @@ impl MoveGenerator {
             Color::Black => position.pieces[Piece::BlackPawn],
         };
 
+        let piece = match side {
+            Color::White => Piece::WhitePawn,
+            Color::Black => Piece::BlackPawn,
+        };
+
         let occupied = position.all_pieces();
         let opponent = position.pieces_of_color(side.opposite());
 
@@ -70,42 +75,42 @@ impl MoveGenerator {
 
         for to in single_push_mask.squares() {
             let from = (to as i8 - shift) as u8;
-            moves.push(Move::new(from, to));
+            moves.push(Move::new(from, to, piece));
         }
 
         for to in promotions_push_mask.squares() {
             let from = (to as i8 - shift) as u8;
             for promotion in [PieceType::Queen, PieceType::Rook, PieceType::Bishop, PieceType::Knight] {
-                moves.push(Move::promotion_move(from, to, promotion));
+                moves.push(Move::promotion_move(from, to, piece, promotion));
             }
         }
 
         for to in double_push_mask.squares() {
             let from = (to as i8 - double_shift) as u8;
-            moves.push(Move::new(from, to));
+            moves.push(Move::new(from, to, piece));
         }
         
         for to in left_normal_captures.squares() {
             let from = (to as i8 - left_shift) as u8;
-            moves.push(Move::new(from, to));
+            moves.push(Move::new(from, to, piece));
         }
         
         for to in left_promo_captures.squares() {
             let from = (to as i8 - left_shift) as u8;
             for promotion in [PieceType::Queen, PieceType::Rook, PieceType::Bishop, PieceType::Knight] {
-                moves.push(Move::promotion_move(from, to, promotion));
+                moves.push(Move::promotion_move(from, to, piece, promotion));
             }
         }
         
         for to in right_normal_captures.squares() {
             let from = (to as i8 - right_shift) as u8;
-            moves.push(Move::new(from, to));
+            moves.push(Move::new(from, to, piece));
         }
         
         for to in right_promo_captures.squares() {
             let from = (to as i8 - right_shift) as u8;
             for promotion in [PieceType::Queen, PieceType::Rook, PieceType::Bishop, PieceType::Knight] {
-                moves.push(Move::promotion_move(from, to, promotion));
+                moves.push(Move::promotion_move(from, to, piece, promotion));
             }
         }
     }

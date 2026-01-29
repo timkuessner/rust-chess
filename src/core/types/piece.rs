@@ -12,7 +12,7 @@ pub enum PieceType {
     King,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum Piece {
     WhitePawn = 0,
     WhiteKnight = 1,
