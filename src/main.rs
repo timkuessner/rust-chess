@@ -5,13 +5,12 @@ use core::position::Position;
 use ui::display::Display;
 
 fn main() {
-    let position = Position::new();
+    let mut position = Position::new();
     position.print();
-    
-    println!("  Side to move: {:?}", position.side_to_move);
-    println!("  En passant: {:?}", position.en_passant_square);
-    println!("  Halfmove clock: {}", position.halfmove_clock);
-    println!("  Fullmove number: {}", position.fullmove_number);
 
-    println!("  Legal moves: {:?}", position.legal_moves());
+    for _ in 0..10 {
+        position = position.apply_move(position.legal_moves()[0]);
+
+        position.print();
+    }
 }

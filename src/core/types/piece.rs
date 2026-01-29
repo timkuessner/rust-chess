@@ -2,7 +2,7 @@ use super::color::Color;
 use super::bitboard::Bitboard;
 use std::ops::{Index, IndexMut};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum PieceType {
     Pawn,
     Knight,

@@ -1,6 +1,6 @@
 use super::piece::{ Piece, PieceType };
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Move {
     pub from: u8,
     pub to: u8,

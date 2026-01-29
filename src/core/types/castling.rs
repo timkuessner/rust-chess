@@ -1,6 +1,6 @@
 use super::color::Color;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CastlingRights(u8);
 
 impl CastlingRights {

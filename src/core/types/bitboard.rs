@@ -1,3 +1,5 @@
+use std::ops::{Shl, Shr};
+
 #[derive(Debug, Clone, Copy)]
 pub struct Bitboard(pub u64);
 
@@ -61,5 +63,29 @@ impl std::ops::Not for Bitboard {
 
     fn not(self) -> Self::Output {
         Bitboard(!self.0)
+    }
+}
+
+impl Shl<i8> for Bitboard {
+    type Output = Bitboard;
+
+    fn shl(self, shift: i8) -> Bitboard {
+        if shift >= 0 {
+            Bitboard(self.0 << shift)
+        } else {
+            Bitboard(self.0 >> (-shift))
+        }
+    }
+}
+
+impl Shr<i8> for Bitboard {
+    type Output = Bitboard;
+
+    fn shr(self, shift: i8) -> Bitboard {
+        if shift >= 0 {
+            Bitboard(self.0 >> shift)
+        } else {
+            Bitboard(self.0 << (-shift))
+        }
     }
 }

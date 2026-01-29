@@ -42,22 +42,22 @@ impl MoveGenerator {
         let occupied = position.all_pieces();
         let opponent = position.pieces_of_color(side.opposite());
 
-        let push_mask = Bitboard(pawns.0 << shift) & !occupied;
+        let push_mask = pawns << shift & !occupied;
 
-        let promotions_push_mask = Bitboard(push_mask.0 & RANK_1_AND_8.0);
-        let single_push_mask = Bitboard(push_mask.0 & !RANK_1_AND_8.0);
+        let promotions_push_mask = push_mask & RANK_1_AND_8;
+        let single_push_mask = push_mask & !RANK_1_AND_8;
 
         let double_shift = shift * 2;
-        let double_push_mask = Bitboard(pawns.0 << double_shift) & !Bitboard(occupied.0 | (occupied.0 << shift));
+        let double_push_mask = pawns << double_shift & !(occupied | (occupied << shift));
 
         let (left_shift, right_shift) = match side {
             Color::White => (7i8, 9i8),
             Color::Black => (-9i8, -7i8),
         };
         
-        let left_cap_targets = Bitboard((pawns.0 & !FILE_A.0) << left_shift);
+        let left_cap_targets = (pawns & !FILE_A) << left_shift;
         
-        let right_cap_targets = Bitboard((pawns.0 & !FILE_H.0) << right_shift);
+        let right_cap_targets = (pawns & !FILE_H) << right_shift;
         
         let en_passant_bitboard = match position.en_passant_square {
             Some(sq) => Bitboard(1u64 << sq),
@@ -68,10 +68,10 @@ impl MoveGenerator {
         let left_captures = left_cap_targets & capture_targets;
         let right_captures = right_cap_targets & capture_targets;
         
-        let left_promo_captures = Bitboard(left_captures.0 & RANK_1_AND_8.0);
-        let left_normal_captures = Bitboard(left_captures.0 & !RANK_1_AND_8.0);
-        let right_promo_captures = Bitboard(right_captures.0 & RANK_1_AND_8.0);
-        let right_normal_captures = Bitboard(right_captures.0 & !RANK_1_AND_8.0);
+        let left_promo_captures = left_captures & RANK_1_AND_8;
+        let left_normal_captures = left_captures & !RANK_1_AND_8;
+        let right_promo_captures = right_captures & RANK_1_AND_8;
+        let right_normal_captures = right_captures & !RANK_1_AND_8;
 
         for to in single_push_mask.squares() {
             let from = (to as i8 - shift) as u8;
@@ -137,9 +137,5 @@ impl MoveGenerator {
 
     fn is_move_illegal(position: &Position, move_: &Move) -> bool {
         false
-    }
-
-    fn serialize_pawn_moves(bitboard: Bitboard, offset: i8, promotion: bool, moves: &mut Vec<Move>) {
-
     }
 }
