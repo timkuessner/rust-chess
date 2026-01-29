@@ -13,5 +13,5 @@ fn main() {
     println!("  Halfmove clock: {}", position.halfmove_clock);
     println!("  Fullmove number: {}", position.fullmove_number);
 
-    position.legal_moves();
+    println!("  Legal moves: {:?}", position.legal_moves());
 }

@@ -90,6 +90,8 @@ pub const FILE_F: Bitboard = Bitboard(0x2020202020202020);
 pub const FILE_G: Bitboard = Bitboard(0x4040404040404040);
 pub const FILE_H: Bitboard = Bitboard(0x8080808080808080);
 
+pub const RANK_1_AND_8: Bitboard = Bitboard(0xFF000000000000FF);
+
 pub const NOT_A_FILE: Bitboard = Bitboard(0xFEFEFEFEFEFEFEFE);
 pub const NOT_H_FILE: Bitboard = Bitboard(0x7F7F7F7F7F7F7F7F);
 pub const NOT_AB_FILE: Bitboard = Bitboard(0xFCFCFCFCFCFCFCFC);

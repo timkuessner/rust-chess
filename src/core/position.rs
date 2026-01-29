@@ -46,6 +46,24 @@ impl Position {
         None
     }
 
+    pub fn all_pieces(&self) -> Bitboard {
+        let mut bitboard = Bitboard::empty();
+        for piece in Piece::all() {
+            bitboard = Bitboard(bitboard.0 | self.pieces[piece].0);
+        }
+        bitboard
+    }
+
+    pub fn pieces_of_color(&self, color: Color) -> Bitboard {
+        let mut bitboard = Bitboard::empty();
+        for piece in Piece::all() {
+            if piece.color() == color {
+                bitboard = Bitboard(bitboard.0 | self.pieces[piece].0);
+            }
+        }
+        bitboard
+    }
+
     pub fn legal_moves(&self) -> Vec<Move> {
         MoveGenerator::legal_moves(self)
     }
