@@ -1,5 +1,6 @@
 use crate::core::types::bitboard::{Bitboard};
 use crate::core::types::piece::PieceType;
+use crate::core::types::square::Square;
 use super::types::piece::Piece;
 use super::types::square::{RANK_1_AND_8, FILE_A, FILE_H};
 use super::position::Position;
@@ -148,10 +149,10 @@ impl MoveGenerator {
             Color::Black => position.pieces[Piece::BlackKnight],
         };
 
-        let own = position.pieces_of_color(side.clone());
+        let opponent = position.pieces_of_color(side.opposite());
 
         for from in knights.squares() {
-            for to in (KNIGHT_MOVES[from as usize] & !own).squares() {
+            for to in (KNIGHT_MOVES[from as usize] & !opponent).squares() {
                 moves.push(Move::new(from, to, match side {
                     Color::White => Piece::WhiteKnight,
                     Color::Black => Piece::BlackKnight,
@@ -161,7 +162,43 @@ impl MoveGenerator {
     }
 
     fn generate_bishop_moves(position: &Position, side: &Color, moves: &mut Vec<Move>) {
-        
+        let bishops = match side {
+            Color::White => position.pieces[Piece::WhiteBishop],
+            Color::Black => position.pieces[Piece::BlackBishop],
+        };
+
+        let own = position.pieces_of_color(side.clone());
+        let occupied  = position.all_pieces();
+
+        for from in bishops.squares() {
+            let file = Square::file(from) as i8;
+            let rank = Square::rank(from) as i8;
+
+            for (df, dr) in [(-1, -1), (-1, 1), (1, -1), (1, 1)] {
+                let mut f = file + df;
+                let mut r = rank + dr;
+
+                while f >= 0 && f <= 7 && r >= 0 && r <= 7 {
+                    let to = Square::from_coords(r as u8, f as u8);
+                    
+                    if own.get_bit(to) {
+                        break;
+                    }
+
+                    moves.push(Move::new(from, to, match side {
+                        Color::White => Piece::WhiteBishop,
+                        Color::Black => Piece::BlackBishop,
+                    }));
+
+                    if occupied.get_bit(to) {
+                        break;
+                    }
+
+                    f += df;
+                    r += dr;
+                }
+            }
+        }
     }
 
     fn generate_rook_moves(position: &Position, side: &Color, moves: &mut Vec<Move>) {
